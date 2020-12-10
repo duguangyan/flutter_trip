@@ -8,7 +8,7 @@ import 'package:flutter_trip/model/grid_nav_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
-
+import 'package:flutter_trip/widget/sub_nav.dart';
 const APPBAR_SCROLL_OFFSET = 100;
 
 class HomePage extends StatefulWidget {
@@ -32,6 +32,7 @@ class _TabNavigatorState extends State<HomePage> {
 
   // 请求home_page数据
   List<CommonModel> localNavList = [];
+  List<CommonModel> subNavList = [];
   GridNavModel gridNavModel;
 
   @override
@@ -59,6 +60,7 @@ class _TabNavigatorState extends State<HomePage> {
     try{
       HomeModel model = await HomeDao.fetch();
       setState(() {
+        subNavList = model.subNavList;
         localNavList = model.localNavList;
         gridNavModel = model.gridNav;
       });
@@ -112,6 +114,10 @@ class _TabNavigatorState extends State<HomePage> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(7,0,7,4),
                         child: GridNav(gridNavModel: gridNavModel,),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(7,0,7,4),
+                        child: SubNav(subNavList: subNavList,),
                       ),
                       Container(
                         height: 800,
