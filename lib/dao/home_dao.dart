@@ -16,7 +16,5 @@ class HomeDao{
     }else{
       throw Exception('Failed to laod home_page.json');
     }
-
   }
-
 }
