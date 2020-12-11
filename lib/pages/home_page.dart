@@ -7,13 +7,16 @@ import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/grid_nav_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/model/sales_box_model.dart';
+import 'package:flutter_trip/pages/search_page.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
+import 'package:flutter_trip/widget/search_bar.dart';
 import 'package:flutter_trip/widget/sub_nav.dart';
 import 'package:flutter_trip/widget/sales_box.dart';
 import 'package:flutter_trip/widget/loading_container.dart';
 import 'package:flutter_trip/widget/webview.dart';
 const APPBAR_SCROLL_OFFSET = 100;
+const SEACH_BAR_DEFAULT_TEXT = '通过这里搜索美食 酒店 景点';
 
 class HomePage extends StatefulWidget {
   @override
@@ -113,22 +116,59 @@ class _TabNavigatorState extends State<HomePage> {
   }
 
   Widget get _appBar {
-    return Opacity(
-      opacity: appBarAlpha,
-      child: Container(
-        height: 80,
-        decoration: BoxDecoration(color: Colors.black),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: Text('首页',style: TextStyle(
-                fontSize: 24.0,
-                color: Colors.white
-            ),),
+
+    return Column(
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0x66000000),Colors.transparent],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter
+            ),
+          ),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            height: 80,
+            decoration: BoxDecoration(
+              color: Color.fromARGB((appBarAlpha*255).toInt(),255,255,255)
+            ),
+            child: SearchBar(
+              searchBarType: appBarAlpha > 0.2 ? SearchBarType.homeLight : SearchBarType.home,
+              inputBoxClick: _jumpToSearch,
+              speackClick: _jumpToSpeack,
+              defaultText: SEACH_BAR_DEFAULT_TEXT,
+              leftButtonClick: (){
+
+              },
+            ),
           ),
         ),
-      ),
+        Container(
+          height: appBarAlpha > 0.2 ? 0.5 : 0,
+          decoration: BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.black12,blurRadius: 0.5)]
+          ),
+        )
+      ],
     );
+
+    // return Opacity(
+    //   opacity: appBarAlpha,
+    //   child: Container(
+    //     height: 80,
+    //     decoration: BoxDecoration(color: Colors.black),
+    //     child: Center(
+    //       child: Padding(
+    //         padding: EdgeInsets.only(top: 20),
+    //         child: Text('首页',style: TextStyle(
+    //             fontSize: 24.0,
+    //             color: Colors.white
+    //         ),),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   Widget get _listView{
@@ -192,5 +232,18 @@ class _TabNavigatorState extends State<HomePage> {
       },
     );
   }
+
+  /// 跳转到搜索页面
+  _jumpToSearch(){
+    Navigator.push(context, MaterialPageRoute(
+      builder:(context)=> SearchPage(hint: SEACH_BAR_DEFAULT_TEXT)
+    ));
+  }
+
+  /// 跳转到语音页面
+  _jumpToSpeack(){
+
+  }
+
 
 }

@@ -29,7 +29,7 @@ class _TabNavigatorState extends State<TabNavigator>{
         controller: _controller,
         children: <Widget>[
           HomePage(),
-          SearchPage(),
+          SearchPage(hideLeft: true),
           TravelPage(),
           MyPage()
         ],
@@ -43,62 +43,71 @@ class _TabNavigatorState extends State<TabNavigator>{
           });
         },
         type: BottomNavigationBarType.fixed,
-        items: [
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color:_defultColor,
-            ),
-          activeIcon: Icon(
-            Icons.home,
-            color: _activeColor,
-          ),
-          title: Text('首页',style: TextStyle(
-            color: _currentIndex != 0 ? _defultColor : _activeColor
-          ),)
-        ),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
-              color:_defultColor,
-            ),
-            activeIcon: Icon(
-              Icons.search,
-              color: _activeColor,
-            ),
-            title: Text('搜索',style: TextStyle(
-                color: _currentIndex !=1 ? _defultColor : _activeColor
-            ),)
-        ),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.camera_alt,
-              color:_defultColor,
-            ),
-            activeIcon: Icon(
-              Icons.camera_alt,
-              color: _activeColor,
-            ),
-            title: Text('旅拍',style: TextStyle(
-                color: _currentIndex !=2 ? _defultColor : _activeColor
-            ),)
-        ),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.account_circle,
-              color:_defultColor,
-            ),
-            activeIcon: Icon(
-              Icons.account_circle,
-              color: _activeColor,
-            ),
-            title: Text('我的',style: TextStyle(
-                color: _currentIndex !=3 ? _defultColor : _activeColor
-            ),)
-        )
-      ],
+        items: _bottomNavigationBarItems()
       ),
     );
   }
-  
+
+  List<BottomNavigationBarItem>  _bottomNavigationBarItems(){
+    List<BottomNavigationBarItem> list = [];
+    for(int i=0;i<4;i++){
+      String text = '';
+      Icon icon;
+      Icon activeIcon;
+      switch(i){
+        case 0:
+          text = '首页';
+          icon = Icon(
+            Icons.home,
+            color:_defultColor,
+          );
+          activeIcon = Icon(
+            Icons.home,
+            color: _activeColor,
+          );
+          break;
+        case 1:
+          text = '搜索';
+          icon = Icon(
+            Icons.search,
+            color:_defultColor,
+          );
+          activeIcon = Icon(
+            Icons.search,
+            color: _activeColor,
+          );
+          break;
+        case 2:
+          text = '旅拍';
+          icon = Icon(
+            Icons.camera_alt,
+            color:_defultColor,
+          );
+          activeIcon = Icon(
+            Icons.camera_alt,
+            color: _activeColor,
+          );
+          break;
+        case 3:
+          text = '我的';
+          icon = Icon(
+            Icons.account_circle,
+            color:_defultColor,
+          );
+          activeIcon = Icon(
+            Icons.account_circle,
+            color: _activeColor,
+          );
+          break;
+      }
+      list.add(BottomNavigationBarItem(
+          icon: icon,
+          activeIcon: activeIcon,
+          title: Text(text,style: TextStyle(
+              color: _currentIndex !=i ? _defultColor : _activeColor
+          ),)
+      ));
+    }
+    return list;
+  }
 }
